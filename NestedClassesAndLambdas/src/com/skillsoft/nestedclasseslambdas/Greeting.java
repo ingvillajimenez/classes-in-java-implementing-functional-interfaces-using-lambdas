@@ -1,12 +1,9 @@
 package com.skillsoft.nestedclasseslambdas;
 
+@FunctionalInterface // Multiple non-overriding abstract methods found in interface com.skillsoft.nestedclasseslambdas.Greeting
 public interface Greeting {
 
-    String simpleGreetingByName(String name); // abstract method
+    void simpleGreeting(String greeting);
 
-    default String simpleGreeting() { // default implementation
-        return "Default greeting!";
-    }
-
-//    String simpleGreeting();
+//    void anotherAbstractMethod();
 }
