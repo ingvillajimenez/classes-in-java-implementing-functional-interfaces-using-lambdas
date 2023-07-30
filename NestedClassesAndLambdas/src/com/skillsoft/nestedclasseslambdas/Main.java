@@ -11,20 +11,73 @@ public class Main {
 
     public static void main(String[] args) {
 
-        greet("Howdy!", new Greeting() {
+        Greeting anonymousGreeting = new Greeting() {
             @Override
             public void simpleGreeting(String greeting) {
                 System.out.println(greeting);
             }
-        });
 
-        greet("How are you", greeting -> System.out.println(greeting));
+            @Override
+            public String toString() {
+                return "String representation of this anonymous class";
+            }
+        };
 
-        greet("Good morning everybody!", greeting -> {
-            System.out.println("----");
+        Greeting lambdaExpressionGreeting = greeting -> System.out.println(greeting);
+
+        Greeting lambdaBlockGreeting = greeting -> {
+            System.out.println("---");
             System.out.println(greeting);
-            System.out.println("----");
-        });
+            System.out.println("---");
+        };
+
+        greet("Wish you a good day!", anonymousGreeting);
+        greet("Welcome aboard!", lambdaExpressionGreeting);
+        greet("Hi there!", lambdaBlockGreeting);
+
+        System.out.println();
+
+        anonymousGreeting.anotherGreeting();
+        lambdaExpressionGreeting.anotherGreeting();
+        lambdaBlockGreeting.anotherGreeting();
+
+        System.out.println();
+
+        Greeting.oneMoreGreeting();
+        Greeting.oneMoreGreeting();
+        Greeting.oneMoreGreeting();
+
+//        System.out.println(anonymousGreeting);
+//        System.out.println(lambdaExpressionGreeting);
+//        System.out.println(lambdaBlockGreeting);
+//
+//        System.out.println();
+//
+//        System.out.println("Anonymous greeting class: " + anonymousGreeting.getClass());
+//        System.out.println("Lambda expression greeting class: " + lambdaExpressionGreeting.getClass());
+//        System.out.println("Lambda block greeting class: " + lambdaBlockGreeting.getClass());
+//
+//        System.out.println("anonymousGreeting instanceof Object: " +
+//                (anonymousGreeting instanceof Object)); // true
+//        System.out.println("lambdaExpressionGreeting instanceof Object: " +
+//                (lambdaExpressionGreeting instanceof Object)); // true
+//        System.out.println("lambdaBlockGreeting instanceof Object: " +
+//                (lambdaBlockGreeting instanceof Object)); // true
+
+//        greet("Howdy!", new Greeting() {
+//            @Override
+//            public void simpleGreeting(String greeting) {
+//                System.out.println(greeting);
+//            }
+//        });
+//
+//        greet("How are you", greeting -> System.out.println(greeting));
+//
+//        greet("Good morning everybody!", greeting -> {
+//            System.out.println("----");
+//            System.out.println(greeting);
+//            System.out.println("----");
+//        });
 
     }
 }
