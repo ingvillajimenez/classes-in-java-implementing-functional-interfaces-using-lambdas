@@ -1,89 +1,131 @@
 package com.skillsoft.nestedclasseslambdas;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Main {
 
-    private static List<Home> populateAndGetHomesList() {
-
-        Home home1 = new Home("brownstone", "New York", 1200, 1000000);
-        Home home2 = new Home("house", "Seattle", 5200, 1500000);
-        Home home3 = new Home("townhome", "Bellevue", 3300, 500000);
-        Home home4 = new Home("condo", "Mumbai", 3500, 1000000);
-        Home home5 = new Home("villa", "Bangalore", 5400, 300000);
-        Home home6 = new Home("mansion", "Palo Alto", 7500, 10000000);
-
-        List<Home> homesList = new ArrayList<>();
-
-        homesList.add(home1);
-        homesList.add(home2);
-        homesList.add(home3);
-        homesList.add(home4);
-        homesList.add(home5);
-        homesList.add(home6);
-
-        return homesList;
+    public static void greet(String name, String customGreeting, int numTimes, Greeting greeting) {
+        System.out.println(greeting.greetMultipleTimes(name, customGreeting, numTimes));
     }
 
-    private static List<Home> filter(List<Home> homesList, HomeFilter... homeFilters) {
+//    public static void greet(String name, String customGreeting, Greeting greeting) {
+//        System.out.println(greeting.customGreetingByName(name, customGreeting));
+//    }
 
-        List<Home> filteredList = new ArrayList<>();
+//    public static void greet(String name, Greeting greeting) {
+//        System.out.println(greeting.simpleGreetingByName(name));
+//    }
 
-        for (Home home : homesList) {
-
-            boolean allCriteriaApplicable = true;
-
-            for (HomeFilter homeFilter : homeFilters) {
-                if (!homeFilter.test(home)) {
-                    allCriteriaApplicable = false;
-
-                    break;
-                }
-            }
-
-            if (allCriteriaApplicable) {
-                filteredList.add(home);
-            }
-        }
-
-        return filteredList;
-    }
-
-//    private static List<Home> filter(List<Home> homesList, HomeFilter homeFilter) {
-//
-//        List<Home> filteredList = new ArrayList<>();
-//
-//        for (Home home : homesList) {
-//            if (homeFilter.test(home)) {
-//                filteredList.add(home);
-//            }
-//        }
-//
-//        return filteredList;
+//    public static void greet(Greeting greeting) {
+//        System.out.println(greeting.simpleGreeting());
 //    }
 
     public static void main(String[] args) {
 
-        List<Home> homesList = populateAndGetHomesList();
+        greet("John", "Good morning!", 3, new Greeting() {
+            @Override
+            public String greetMultipleTimes(String name, String customGreeting, int numTimes) {
 
-        System.out.println("*** Original list: \n" + homesList);
+                String greeting = String.format("%s %s\n", customGreeting, name);
 
-        List<Home> filteredList = filter(homesList,
-                home -> (home.getAreaSqFt() > 3000 && home.getAreaSqFt() < 5500),
-                home -> home.getPrice() < 1000000);
-//                home -> (home.getPrice() < 1000000 && home.getType().equals("townhome")));
-//                home -> (home.getAreaSqFt() > 3000 && home.getAreaSqFt() < 5500)); // lambda
+                StringBuilder sb = new StringBuilder();
 
-//        List<Home> filteredList = filter(homesList, new HomeFilter() { // Anonymous new HomeFilter() can be replaced with lambda
+                for (int i = 0; i < numTimes; i++) {
+                    sb.append(greeting);
+                }
+
+                return sb.toString();
+            }
+        });
+
+        greet("Carrie", "Welcome aboard!", 2,
+                (String name, String customGreeting, int numTimes) ->
+                        String.format("**%s %s**\n", customGreeting, name).repeat(numTimes));
+
+        greet("Ronald", "Good evening, how are you today?", 3,
+                (String name, String customGreeting, int numTimes) ->
+                        String.format("--%s %s--\n", customGreeting, name).repeat(numTimes));
+
+//        greet("Carrie", "Welcome aboard!", 2,
+//                (name, customGreeting, numTimes) ->
+//                        String.format("**%s %s**\n", customGreeting, name).repeat(numTimes)); // lambda expression
 //
+//        greet("Ronald", "Good evening, how are you today?", 3,
+//                (name, customGreeting, numTimes) ->
+//                        String.format("--%s %s--\n", customGreeting, name).repeat(numTimes)); // lambda expression
+
+//        greet("Carrie", "Welcome aboard!", 2,
+//                (name, customGreeting, numTimes) -> {
+//                    return String.format("**%s %s**\n", customGreeting, name).repeat(numTimes); // Statement lambda can be replaced with expression lambda
+//                });
+//
+//        greet("Ronald", "Good evening, how are you today?", 3,
+//                (name, customGreeting, numTimes) -> {
+//                    return String.format("--%s %s--\n", customGreeting, name).repeat(numTimes); // Statement lambda can be replaced with expression lambda
+//                });
+
+//        greet("Carrie", "Welcome aborad!", 2,
+//                (name, customGreeting, numTimes) -> {
+//                    String greeting = String.format("**%s %s**\n", customGreeting, name);
+//
+//                    StringBuilder sb = new StringBuilder();
+//
+//                    for (int i = 0; i < numTimes; i++) {
+//                        sb.append(greeting);
+//                    }
+//
+//                    return sb.toString();
+//                });
+//
+//        greet("Ronald", "Good evening, how are you today?", 3,
+//                (name, customGreeting, numTimes) -> {
+//                    String greeting = String.format("--%s %s--\n", customGreeting, name);
+//
+//                    StringBuilder sb = new StringBuilder();
+//
+//                    for (int i = 0; i < numTimes; i++) {
+//                        sb.append(greeting);
+//                    }
+//
+//                    return sb.toString();
+//                });
+
+//        greet("John", "Good morning!", new Greeting() {
 //            @Override
-//            public boolean test(Home home) {
-//                return home.getAreaSqFt() > 3000 && home.getAreaSqFt() < 5500;
+//            public String customGreetingByName(String name, String customGreeting) {
+//                return (customGreeting + " " + name);
 //            }
 //        });
+//
+//        greet("Carrie", "Welcome aboard!",
+//                (name, customGreeting) -> customGreeting + " " + name);
+//
+//        greet("Ronald", "Good evening, how are you today?",
+//                (name, customGreeting) -> name + " " + customGreeting);
 
-        System.out.println("*** Filtered list: \n" + filteredList);
+//        greet("John", new Greeting() {
+//            @Override
+//            public String simpleGreetingByName(String name) {
+//                return ("Hello " + name);
+//            }
+//        });
+//
+//        greet("Carrie", name -> "Good morning! " + name);
+//
+//        greet("Ronald", name -> name + " It's a beautiful day!");
+
+//        greet("Carrie", (name) -> "Good morning! " + name);
+//
+//        greet("Ronald", (name) -> name + " It's a beautiful day!");
+
+//        greet(new Greeting() {
+//            @Override
+//            public String simpleGreeting() {
+//                return "Hello world!";
+//            }
+//        });
+//
+//        greet(() -> "Good morning!");
+//
+//        greet(() -> "Here is a simple interface method which takes in no parameters!");
     }
 }
 
