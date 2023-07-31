@@ -1,6 +1,7 @@
 package com.skillsoft.nestedclasseslambdas;
 
 import java.util.*;
+import java.util.function.Supplier;
 
 public class Main {
 
@@ -23,69 +24,67 @@ public class Main {
 
     public static void main(String[] args) {
 
-        class ComparisonUtility {
-
-            public int compareByPrice(Home h1, Home h2) {
-                return Integer.valueOf(h1.getPrice()).compareTo(h2.getPrice());
+        HomeCreator homeCreatorAnonymous = new HomeCreator() {
+            @Override
+            public Home create(String type, String city, int areaSqFt, int price) {
+                return new Home(type, city, areaSqFt, price);
             }
+        };
 
-            public int compareByAreaSqFt(Home h1, Home h2) {
-                return Integer.valueOf(h1.getAreaSqFt()).compareTo(h2.getAreaSqFt());
-            }
-        }
+        Home home1 = homeCreatorAnonymous.create(
+                "brownstone", "New York", 1200, 1200000);
+        System.out.println("Anonymous class: " + home1);
 
-        List<Home> homesList = populateAndGetHomesList();
+        HomeCreator homeCreatorLambdaExpression = (type, city, areaSqFt, price) ->
+                new Home(type, city, areaSqFt, price);
 
-        ComparisonUtility comparisonUtility = new ComparisonUtility();
+        Home home2 = homeCreatorLambdaExpression.create(
+                "townhome", "Bellevue", 3300, 500000);
 
-        System.out.println("Original: \n" + homesList);
+        System.out.println("Lambda expression: " + home2);
 
-        Collections.sort(homesList, comparisonUtility::compareByAreaSqFt);
-//        Collections.sort(homesList, comparisonUtility::compareByPrice);
+        HomeCreator homeCreatorMethodReference = Home::new; // parameterized constructor method reference to construct a Home object and implement HomeCreator interface
 
-        System.out.println("Sorted: \n" + homesList);
+        Home home3 = homeCreatorMethodReference.create(
+                "condo", "Bellevue", 3500, 1000000);
 
-//        List<Home> homesList = populateAndGetHomesList();
-//
-//        System.out.println("Original: \n" + homesList);
-//
-//        Collections.sort(homesList, Home::compareByPrice); // static method reference
-//
-//        System.out.println("Sorted: \n" + homesList);
+        System.out.println("Method reference: " + home3);
 
-//        List<Home> homesList = populateAndGetHomesList();
-//
-//        System.out.println("Original: \n" + homesList);
-//
-//        Collections.sort(homesList, (o1, o2) -> Home.compareByPrice(o1, o2)); // lambda expression
-//
-//        System.out.println("Sorted: \n" + homesList);
-
-//        List<Home> homesList = populateAndGetHomesList();
-//
-//        System.out.println("Original: \n" + homesList);
-//
-//        Collections.sort(homesList, new Comparator<Home>() { // anonymous class
+//        Supplier<Home> homeAnonymousClassSupplier = new Supplier<Home>() {
 //            @Override
-//            public int compare(Home o1, Home o2) {
-//                return Home.compareByPrice(o1, o2);
+//            public Home get() {
+//                return new Home();
 //            }
-//        });
+//        };
+//
+//        System.out.println("Anonymous class: " + homeAnonymousClassSupplier.get());
+//
+//        Supplier<Home> homeLambdaExpressionSupplier = () -> new Home();
+//
+//        System.out.println("Lambda expression: " + homeLambdaExpressionSupplier.get());
+//
+//        Supplier<Home> homeMethodReferenceSupplier = Home::new; // no argument constructor method reference to construct a Home object and implement Supplier interface
+//
+//        System.out.println("Method reference: " + homeMethodReferenceSupplier.get());
+
+//        List<Home> homesList = populateAndGetHomesList();
+//
+//        System.out.println("Original: \n" + homesList);
+//
+//        homesList.sort(Home::compareTypes); // instance method reference of an arbitrary type Home
 //
 //        System.out.println("Sorted: \n" + homesList);
 
 //        List<String> writers = Arrays.asList("Ernest Hemingway", "J.K. Rowling", "Haruki Murakami", "Roald Dahl");
 //
-//        System.out.println("Displaying elements using traditional for loop");
-//        for (String writer : writers) {
-//            System.out.println(writer);
-//        }
+//        writers.sort(String::compareToIgnoreCase); // instance method reference of an arbitrary type String
 //
-//        System.out.println("\nDisplaying elements using lambda expression");
-//        writers.forEach(writer -> System.out.println(writer)); // Lambda can be replaced with method reference
-//
-//        System.out.println("\nDisplaying elements using method reference");
-//        writers.forEach(System.out::println); // println static method that is part of the System.out class
+//        System.out.println(writers);
+
+//        System.out.println("\"A\".compareToIgnoreCase(\"B\"): " + "A".compareToIgnoreCase("B"));
+//        System.out.println("\"B\".compareToIgnoreCase(\"A\"): " + "B".compareToIgnoreCase("A"));
+//        System.out.println("\"A\".compareToIgnoreCase(\"a\"): " + "A".compareToIgnoreCase("a"));
+//        System.out.println("\"B\".compareToIgnoreCase(\"b\"): " + "B".compareToIgnoreCase("b"));
     }
 }
 

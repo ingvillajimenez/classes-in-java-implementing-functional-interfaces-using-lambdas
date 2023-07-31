@@ -7,6 +7,9 @@ public class Home {
     private int areaSqFt;
     private int price;
 
+    public Home() {
+    }
+
     public Home(String type, String city, int areaSqFt, int price) {
         this.type = type;
         this.city = city;
@@ -30,13 +33,17 @@ public class Home {
         return price;
     }
 
+    public int compareTypes(Home h) { // instance method
+        return this.type.compareTo(h.type);
+    }
+
     @Override
     public String toString() {
         return String.format("\nType: %s, city: %s, area: %d, price: %d",
                 type, city, areaSqFt, price);
     }
 
-//    public static int compareByPrice(Home home1, Home home2) {
+//    public static int compareByPrice(Home home1, Home home2) { // static method
 //        return Integer.valueOf(home1.price).compareTo(home2.price);
 //    }
 }
