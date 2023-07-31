@@ -30,6 +30,22 @@ public class Home {
         return price;
     }
 
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public void setAreaSqFt(int areaSqFt) {
+        this.areaSqFt = areaSqFt;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
     @Override
     public String toString() {
         return String.format("\nType: %s, city: %s, area: %d, price: %d",
